@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EduVantage Pro | Student Portal</title>
+    <style>
+        :root { --primary: #2563eb; --dark: #0f172a; --bg: #f8fafc; --text: #1e293b; }
+        body { margin: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: var(--bg); color: var(--text); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar Design */
+        .sidebar { width: 260px; background: var(--dark); color: white; padding: 25px; display: flex; flex-direction: column; box-shadow: 4px 0 10px rgba(0,0,0,0.1); }
+        .sidebar h2 { color: var(--primary); font-size: 22px; margin-bottom: 40px; border-bottom: 1px solid #334155; padding-bottom: 10px; }
+        .nav-item { padding: 12px 15px; margin: 8px 0; border-radius: 8px; cursor: pointer; transition: 0.3s; font-size: 15px; display: flex; align-items: center; }
+        .nav-item:hover { background: #1e293b; color: var(--primary); }
+
+        /* Main Dashboard Area */
+        .main-content { flex: 1; padding: 40px; overflow-y: auto; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .status-badge { background: #dcfce7; color: #166534; padding: 6px 15px; border-radius: 20px; font-size: 13px; font-weight: 600; }
+
+        /* 20-Feature Grid Layout */
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+        .feature-card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); border-top: 4px solid var(--primary); transition: transform 0.2s; }
+        .feature-card:hover { transform: translateY(-5px); }
+        .feature-card h4 { margin: 0; color: #64748b; font-size: 12px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .feature-card p { margin: 10px 0 0; font-size: 18px; font-weight: bold; color: var(--dark); }
+
+        /* Secure Login Overlay */
+        .login-overlay { position: fixed; inset: 0; background: var(--dark); display: flex; justify-content: center; align-items: center; z-index: 1000; }
+        .login-box { background: white; padding: 45px; border-radius: 24px; width: 340px; text-align: center; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); }
+        .login-box h1 { margin-top: 0; color: var(--dark); }
+        input { width: 100%; padding: 14px; margin: 20px 0; border: 1.5px solid #e2e8f0; border-radius: 10px; font-size: 16px; box-sizing: border-box; }
+        .btn-unlock { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 10px; width: 100%; font-weight: bold; cursor: pointer; font-size: 16px; transition: 0.2s; }
+        .btn-unlock:hover { background: #1d4ed8; }
+    </style>
+</head>
+<body>
+
+    {% if not authorized %}
+    <div class="login-overlay">
+        <div class="login-box">
+            <h1>EduVantage</h1>
+            <p style="color: #64748b;">Class 12 CS Board Project</p>
+            <form method="POST">
+                <input type="password" name="password" placeholder="Enter Secret Access Key" required autofocus>
+                <button type="submit" class="btn-unlock">Unlock Portal</button>
+            </form>
+            {% if error %}<p style="color: #ef4444; margin-top: 15px; font-weight: 500;">{{ error }}</p>{% endif %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="sidebar">
+        <h2>EduVantage Pro</h2>
+        <div class="nav-item">📊 System Dashboard</div>
+        <div class="nav-item">📚 Study Materials</div>
+        <div class="nav-item">📝 Practice Tests</div>
+        <div class="nav-item">🏆 Performance Analytics</div>
+        <div class="nav-item">⚙️ Global Settings</div>
+        <div style="margin-top: auto; padding-top: 20px; border-top: 1px solid #334155; font-size: 12px; color: #94a3b8;">
+            Server: Python 3.13 Active
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <div>
+                <h1 style="margin: 0;">Operational Overview</h1>
+                <p style="color: #64748b; margin: 5px 0 0;">Welcome, {{ data['Student Name'] }}</p>
+            </div>
+            <div class="status-badge">● System Secure</div>
+        </div>
+
+        <div class="grid">
+            {% for key, value in data.items() %}
+            <div class="feature-card">
+                <h4>{{ key }}</h4>
+                <p>{{ value }}</p>
+            </div>
+            {% endfor %}
+        </div>
+
+        <div style="margin-top: 40px; text-align: center;">
+            <a href="/" style="text-decoration: none;">
+                <button style="background: #f1f5f9; color: #64748b; border: 1px solid #e2e8f0; padding: 10px 25px; border-radius: 8px; cursor: pointer; font-weight: 600;">Secure Logout</button>
+            </a>
+        </div>
+    </div>
+
+</body>
+</html>
